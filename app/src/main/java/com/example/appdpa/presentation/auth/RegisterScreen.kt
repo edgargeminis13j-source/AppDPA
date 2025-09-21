@@ -2,7 +2,6 @@ package com.example.appdpa.presentation.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,11 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(navController: NavController) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -91,10 +91,11 @@ fun RegisterScreen() {
 
         Button(
             onClick = {
-                // Aquí iría la lógica de registro:
-                // 1. Validar los campos (ej. que no estén vacíos, que las contraseñas coincidan)
-                // 2. Llamar a tu ViewModel o servicio de autenticación para registrar al usuario
-                // 3. Navegar a otra pantalla (ej. pantalla de inicio de sesión o pantalla principal)
+                if(name.isNotBlank() &&
+                    email.isNotBlank() &&
+                    password == confirmPassword){
+                    navController.navigate("login")
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
