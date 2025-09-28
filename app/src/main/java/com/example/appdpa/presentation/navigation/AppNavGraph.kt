@@ -12,7 +12,7 @@ import com.example.appdpa.presentation.home.HomeScreen
 fun AppNavGraph(){
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "register"){
+    NavHost(navController = navController, startDestination = "home"){
         composable("login"){
             LoginScreen(navController)
         }
