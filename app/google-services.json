@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "765096603035",
+    "project_id": "appesan-a0c16",
+    "storage_bucket": "appesan-a0c16.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765096603035:android:67c7ded0e26843b4fec53e",
+        "android_client_info": {
+          "package_name": "com.example.appdpa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp-gzdBKrPQk1OX9DKpFJTgvS_vMmLuC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
