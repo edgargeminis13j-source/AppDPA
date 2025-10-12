@@ -84,6 +84,7 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.padding(vertical = 8.dp).fillMaxWidth()
         ){
             Text("Iniciar Sesion")
+
         }
     }
 
