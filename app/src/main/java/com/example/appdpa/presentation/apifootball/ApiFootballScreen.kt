@@ -1,7 +1,10 @@
 package com.example.appdpa.presentation.apifootball
 
 import android.R
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
@@ -40,6 +44,7 @@ fun ApiFootballScreen(viewModel: ApiFootballViewModel = viewModel()) {
     val teams by viewModel.teams.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
+    val context = LocalContext.current
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -86,10 +91,21 @@ fun ApiFootballScreen(viewModel: ApiFootballViewModel = viewModel()) {
                 ) {
                     items(teams) { wrapper ->
                         Card(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp)
+                                .clickable {
+                                    val intent = Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("https://www.google.com/search?q=${wrapper.team.name}")
+                                    )
+                                    context.startActivity(intent)
+                                }
                         ){
                             Row (
-                                modifier = Modifier.fillMaxWidth().padding(12.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(12.dp),
                             ){
                                 Image(
                                     painter = rememberAsyncImagePainter(wrapper.team.logo),
