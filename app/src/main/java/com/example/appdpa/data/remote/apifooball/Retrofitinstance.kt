@@ -12,7 +12,7 @@ object Retrofitinstance {
     private val client = OkHttpClient.Builder()
         .addInterceptor (Interceptor { chain ->
             val newRequest = chain.request().newBuilder()
-                .addHeader("x-apisport-key", API_KEY)
+                .addHeader("x-apisports-key", API_KEY)
             chain.proceed(newRequest.build())
         }).build()
     val api: ApiFootballService by lazy {
