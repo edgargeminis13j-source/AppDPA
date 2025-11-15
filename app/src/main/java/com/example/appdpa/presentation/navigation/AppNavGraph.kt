@@ -15,7 +15,7 @@ import com.example.appdpa.presentation.permissions.GalleryPermissionScreen
 fun AppNavGraph(){
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "home"){
+    NavHost(navController = navController, startDestination = "register"){
         composable("login"){
             LoginScreen(navController)
         }

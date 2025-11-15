@@ -1,14 +1,19 @@
 package com.example.appdpa.presentation.auth
 
+import android.webkit.WebView
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -23,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.appdpa.data.remote.firebase.FireBaseAuthManager
@@ -38,6 +44,9 @@ fun RegisterScreen(navController: NavController) {
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    var accepTerms by remember { mutableStateOf(false) }
+    var showTerms by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -97,14 +106,28 @@ fun RegisterScreen(navController: NavController) {
             singleLine = true
         )
 
+        Spacer(modifier = Modifier.padding(8.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(
+                checked = accepTerms,
+                onCheckedChange = { accepTerms = it }
+            )
+            Button(onClick = { showTerms = true }) {
+                Text("Aceptar terminos y condiciones")
+            }
+        }
+
+        Spacer(modifier = Modifier.padding(16.dp))
+
         Button(
             onClick = {
-                if(name.isNotBlank() &&
+                if (name.isNotBlank() &&
                     email.isNotBlank() &&
-                    password == confirmPassword){
-                    CoroutineScope (Dispatchers.Main).launch {
+                    password == confirmPassword
+                ) {
+                    CoroutineScope(Dispatchers.Main).launch {
                         val result = FireBaseAuthManager.registerUser(name, email, password)
-                        if(result.isSuccess){
+                        if (result.isSuccess) {
                             navController.navigate("login")
                         } else {
                             val error = result.exceptionOrNull()?.message ?: "Error desconocido"
@@ -121,5 +144,29 @@ fun RegisterScreen(navController: NavController) {
         ) {
             Text("Registrarse")
         }
+    }
+
+    if(showTerms){
+        AlertDialog(
+            onDismissRequest = { showTerms = false },
+            confirmButton = {
+                Button(onClick = { showTerms = false }) {
+                    Text("Cerrar")
+                }
+            },
+            title = { Text("Términos y condiciones") },
+            text = {
+                AndroidView(
+                    factory = { context ->
+                        WebView(context).apply {
+                            settings.javaScriptEnabled = true
+                            settings.domStorageEnabled = true
+                            loadUrl("https://www.privacypolicies.com/live/23251f1a-b7d8-45e9-9485-5ea09c783c85")
+                        }
+                    }
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
